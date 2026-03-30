@@ -34,6 +34,29 @@ app.post("/tarefas", (req, res) => {
   res.status(201).json(novaTarefa);
 });
 
+app.patch("/tarefas/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const tarefa = tarefas.find(t => t.id === id);
+
+  if (!tarefa) {
+    return res.status(404).json({
+      erro: "Tarefa não encontrada."
+    });
+  }
+
+  const { titulo, concluida } = req.body;
+
+  if (titulo !== undefined) {
+    tarefa.titulo = titulo;
+  }
+
+  if (concluida !== undefined) {
+    tarefa.concluida = concluida;
+  }
+
+  res.status(200).json(tarefa);
+});
+
 app.delete("/tarefas/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
